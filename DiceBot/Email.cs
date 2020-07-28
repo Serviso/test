@@ -83,7 +83,7 @@ namespace DiceBot
                 System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage();
                 message.To.Add(this.emailaddress);
                 message.Subject = (Eminfo as eminfo).subj;
-                message.From = new System.Net.Mail.MailAddress("DiceBot@seuntjie.com");
+                message.From = new System.Net.Mail.MailAddress("Dicebot@gmail.com");
                 message.Body = (Eminfo as eminfo).msg;
                 System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(SMTP);
                 smtp.Send(message);
