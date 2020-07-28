@@ -1,4 +1,4 @@
-﻿using System;
+?using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -47,26 +47,26 @@ namespace DiceBot
         }
 
         Control[] ControlsToDisable;
-        
+
         DateTime OpenTime = DateTime.Now;
         Random r = new Random();
         Graph LiveGraph;
         Stats StatsWindows = new Stats();
         StatsForm StatsForm = new StatsForm();
         Simulate SimWindow;
-        
+
         #region Variables
         public int logging = 0;
         Random rand = new Random();
         bool retriedbet = false;
-        decimal StartBalance = 0;        
+        decimal StartBalance = 0;
         decimal Lastbet = -1;
         decimal MinBet = 0;
         decimal Multiplier = 0;
         decimal WinMultiplier = 0;
         decimal Limit = 0;
         decimal Amount = 0;
-        
+
         decimal LargestBet = 0;
         decimal LargestWin = 0;
         decimal LargestLoss = 0;
@@ -95,7 +95,7 @@ namespace DiceBot
         int WorstStreak3 = 0;
         int Losestreak = 0;
         int timecounter = 0;
-        
+
         int iMultiplyCounter = 0;
         int MaxMultiplies = 0;
         int WinMaxMultiplies = 0;
@@ -103,10 +103,10 @@ namespace DiceBot
         int WinDevidecounter = 0;
         int SoundStreakCount = 15;
         int restartcounter = 0;
-        
+
         int laststreaklose = 0;
         int laststreakwin = 0;
-        
+
         bool stop = true;
         bool withdraw = false;
         bool invest = false;
@@ -197,13 +197,13 @@ namespace DiceBot
         public decimal PreviousBalance
         {
             get { return dPreviousBalance; }
-            set 
+            set
             {
-               
-                dPreviousBalance = value; 
+
+                dPreviousBalance = value;
             }
         }
-      
+
         decimal Chartprofit = 0;
         delegate void dDobet(Bet bet);
 
@@ -240,7 +240,7 @@ namespace DiceBot
                 profit += (decimal)bet.Profit;
                 Chartprofit += (decimal)bet.Profit;
                 wagered += (decimal)bet.Amount;
-                
+
             }
             catch (Exception e)
             {
@@ -249,7 +249,7 @@ namespace DiceBot
             bool Win = (((bool)bet.high ? (decimal)bet.Roll > (decimal)CurrentSite.maxRoll - (decimal)(bet.Chance) : (decimal)bet.Roll < (decimal)(bet.Chance)));
             if (!RunningSimulation)
             {
-                
+
                 new Thread(new ParameterizedThreadStart(AddChartPoint)).Start(Win);
             }
             if (InvokeRequired)
@@ -261,7 +261,7 @@ namespace DiceBot
 
 
             //FileInfo tmp = new FileInfo("");
-            
+
         }
         long chartbets = 1;
         List<System.Windows.Forms.DataVisualization.Charting.DataPoint> chartpoints = new List<System.Windows.Forms.DataVisualization.Charting.DataPoint>();
@@ -366,7 +366,7 @@ namespace DiceBot
                 c.Enabled = Enabled;
             }
             if (Enabled)
-            { 
+            {
                 btnRegister.Enabled = false;
                 btnLogIn.Text = "Logout";
             }
@@ -379,7 +379,7 @@ namespace DiceBot
         FastColoredTextBox richTextBox3;
         public cDiceBot(string[] args)
         {
-            
+
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
             Thread.CurrentThread.CurrentUICulture =  new CultureInfo("en-US");
             sqlite_helper.CheckDBS();
@@ -393,10 +393,10 @@ namespace DiceBot
 nextbet=0.00000100 --sets your first bet.
 bethigh=true --bet high when true, bet low when false
 
-enablezz=false --set to true to use high/low switching 
+enablezz=false --set to true to use high/low switching
 --settings from advanced mode
 
-enablesrc=false --set to true to use stop/reset conditions 
+enablesrc=false --set to true to use stop/reset conditions
 --settings from advanced mode
 
 function dobet()
@@ -417,7 +417,7 @@ end";
             PopoutChat.SendMessage += PopoutChat_SendMessage;
             SimWindow = new Simulate(this);
             StatsWindows.btnResetStats.Click += btnResetStats_Click;
-            
+
             ControlsToDisable = new Control[] { btnApiBetHigh, btnApiBetLow, btnWithdraw, btnInvest, btnTip, btnStartHigh, btnStartLow, btnStartHigh2, btnStartLow2, btnMPWithdraw, btnMPDeposit };
             EnableNotLoggedInControls(false);
             basicToolStripMenuItem.Checked = true;
@@ -435,7 +435,7 @@ end";
                     "When your balance reaches this\n"+
                     "value, the bot will do one of \n" +
                     "the actions specified below.");
-                    
+
                 tt.SetToolTip(lblLowLimit,
                 "When your balance goes below this\n" +
                 "value, the bot will stop playing.\n" +
@@ -443,47 +443,47 @@ end";
                 tt.SetToolTip( lblAction,
                 "The selected action will occur when\n" +
                 "your balance goes above the limit as\n" +
-                "specified above"); 
+                "specified above");
                 tt.SetToolTip( lblAmount,
                 "The amount that will be invested\n" +
-                "or deposited when the limit is reached"); 
+                "or deposited when the limit is reached");
                 tt.SetToolTip( lblAddress,
                 "Btc Address that the funds get" +
-                "withdrawn to\n"); 
+                "withdrawn to\n");
                 tt.SetToolTip( lblMinBet,
                 "This is the first bet to be placed,\n" +
-                "upon win, bet will reset to this value\n"); 
+                "upon win, bet will reset to this value\n");
                 tt.SetToolTip( lblChance,
                 "Chance of winning, as entered into \n" +
                 "the site\n");
                 tt.SetToolTip( lblMultiplier,
                 "Upon a loss, the bet will be \n" +
                 "multiplied by this value. See\n" +
-                "Max multiplies and After as well"); 
+                "Max multiplies and After as well");
             tt.SetToolTip( lblMaxMultiplier,
                 "In a losing streak, the bet will\n" +
                 "will be multiplied untill the streak\n" +
                 "reaches "+nudMaxMultiplies.Value.ToString("0.00000") +" bets. The following bets\n"+
-                "will be with the same amount"); 
+                "will be with the same amount");
                 tt.SetToolTip( lblAfter,
                 "with every " + nudNbets.Value + " losses in a row,\n" +
                 "the muliplier will be multiplied with\n" +
                 nudDevider.Value.ToString("0.00000")+". The idea is to decrease the size\n"+
                 "the multiplier, keep the value between\n"+
-                "0.9 and 0.5. Minimum Multiplier is 1"); 
+                "0.9 and 0.5. Minimum Multiplier is 1");
                 tt.SetToolTip( lblAfter2,
             "with every " + nudNbets.Value.ToString() + " losses in a row,\n" +
             "the muliplier will be multiplied with\n" +
             nudDevider.Value.ToString("0.00000") + ". The idea is to decrease the size\n" +
             "the multiplier, keep the value between\n" +
-            "0.9 and 0.5. Minimum Multiplier is 1"); 
+            "0.9 and 0.5. Minimum Multiplier is 1");
                 tt.SetToolTip( lblDevider,
             "with every " + nudNbets.Value.ToString() + " losses in a row,\n" +
             "the muliplier will be multiplied with\n" +
             nudDevider.Value.ToString("0.00000") + ". The idea is to decrease the size\n" +
             "the multiplier, keep the value between\n" +
-            "0.9 and 0.5. Minimum Multiplier is 1"); 
-                
+            "0.9 and 0.5. Minimum Multiplier is 1");
+
 
 
             #endregion
@@ -518,9 +518,9 @@ end";
 
                 diceToolStripMenuItem.DropDown.Items.Add(tmpItem);
                 tmpItem.Click += btcToolStripMenuItem_Click;
-                
+
                 tmpItem.CheckedChanged += btcToolStripMenuItem_CheckedChanged;
-                
+
             }
             foreach (string s in SafeDice.cCurrencies)
             {
@@ -554,7 +554,7 @@ end";
 
                 tmpItem.CheckedChanged += btcToolStripMenuItem_CheckedChanged;
 
-            }           
+            }
             foreach (string s in FortuneJack.cCurrencies)
             {
                 ToolStripMenuItem tmpItem = new ToolStripMenuItem { Text = s };
@@ -651,8 +651,8 @@ end";
                 tmpItem.CheckedChanged += btcToolStripMenuItem_CheckedChanged;
 
             }
-            
-            
+
+
             foreach(string s in YoloDice.cCurrencies)
             {
                 ToolStripMenuItem tmpItem = new ToolStripMenuItem { Text = s };
@@ -759,19 +759,19 @@ end";
                 if (txtQuickSwitch.Text!="")
                     btnStratRefresh_Click(btnStratRefresh, new EventArgs());
             }
-           
+
             tmStop.Enabled = true;
-            
+
             Thread tGetVers = new Thread(new ThreadStart(getversion));
             tGetVers.Start();
             populateFiboNacci();
-            
+
             if (autologin)
             {
                 CurrentSite.FinishedLogin -= CurrentSite_FinishedLogin;
                 CurrentSite.FinishedLogin += CurrentSite_FinishedLogin;
                 CurrentSite.Login(username, password , txtApi2fa.Text);
-                
+
             }
             Lua.RegisterFunction("withdraw",this, new dWithdraw(luaWithdraw).Method);
             Lua.RegisterFunction("invest", this, new dInvest(luainvest).Method);
@@ -927,7 +927,7 @@ end";
         }
 
         delegate void dResetStats();
-       
+
 
         delegate void dRunsim(decimal startingabalance, int bets);
         void runsim(decimal startingbalance, int bets)
@@ -1033,7 +1033,7 @@ end";
             }
         }
 
-        
+
 
         //check if the current version of the bot is the latest version available
         void getversion()
@@ -1042,7 +1042,7 @@ end";
             {
                 HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("https://bot.seuntjie.com/Dicebot/vs.html?vers="+vers);
                 request.UserAgent = "dicebot" + vers;
-                
+
                 HttpWebResponse EmitResponse = (HttpWebResponse)request.GetResponse();
                 string sEmitResponse = new StreamReader(EmitResponse.GetResponseStream()).ReadToEnd();
                 string[] ss = sEmitResponse.Split('|');
@@ -1050,7 +1050,7 @@ end";
                 {
                     string newfeatures = ss.Length>1?"New features include: "+ss[1]:"";
                     if (MessageBox.Show("A new version of DiceBot is available. "+newfeatures+" \n\nDo you want to go to the download page now?",
-                        "Update Available", 
+                        "Update Available",
                         MessageBoxButtons.YesNo, MessageBoxIcon.None , MessageBoxDefaultButton.Button1 ,MessageBoxOptions.DefaultDesktopOnly) == System.Windows.Forms.DialogResult.Yes)
                     {
                         Process.Start("http://bot.seuntjie.com/botpage.aspx");
@@ -1068,8 +1068,8 @@ end";
                             {
                                 Link = ss[3];
                             }
-                            
-                            
+
+
                             ShowStartup(Message, Link);
                         }
                     }
@@ -1113,7 +1113,7 @@ end";
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+
             testInputs();
             if (pnlBasic.Visible)
             {
@@ -1127,14 +1127,14 @@ end";
             {
                 scMain.SplitterDistance = (scMain.Width - pnlProgrammer.Width) - 3;
             }
-            
+
             richTextBox3.BringToFront();
-            pnlControlProgrammer.SendToBack();            
+            pnlControlProgrammer.SendToBack();
             pnlLoadProgrammer.SendToBack();
         }
 
         //Statistics
-        //includes - 
+        //includes -
         //updatestats();
         //maxbets();//start
         //maxbets();//recursive
@@ -1143,7 +1143,7 @@ end";
         delegate void dUpdateStats();
         private void UpdateStats()
         {
-            
+
             if (InvokeRequired)
             {
                 Invoke(new dUpdateStats(UpdateStats));
@@ -1206,8 +1206,8 @@ end";
 
                         lblWins2.Text = StatsWindows.lblWins.Text = Wins.ToString();
                         StatsWindows.lblWinStreak.Text = BestStreak.ToString();
-                        
-                        
+
+
                         TimeSpan curtime =TotalTime+(DateTime.Now - dtStarted);
                         lblBets2.Text = StatsWindows.lblBets.Text = (Wins + Losses).ToString();
                         decimal profpB = 0;
@@ -1278,7 +1278,7 @@ end";
                     return maxbetsVariable();
                 else if (rdbMaxMultiplier.Checked)
                     return maxbetsMaxMultiplies();
-                else if (rdbReduce.Checked) 
+                else if (rdbReduce.Checked)
                 return maxbetsChangeOnce();
             }
             return 0;
@@ -1289,7 +1289,7 @@ end";
             decimal total = 0;
             int bets = 0;
             decimal curbet = MinBet;
-            
+
             decimal Multiplier = (decimal)(nudMultiplier.Value);
 
             while (total < PreviousBalance)
@@ -1305,7 +1305,7 @@ end";
                 bets++;
                 total += curbet;
                 if (bets > 500)
-                    return -500;  
+                    return -500;
             }
             return bets;
         }
@@ -1393,7 +1393,7 @@ end";
             }
             return bets;
         }
-                   
+
 
         private void btnStreakTable_Click(object sender, EventArgs e)
         {
@@ -1418,7 +1418,7 @@ end";
             luck = tmp;
         }
         #endregion
-         
+
         //Core Program
         //includes -
         //Stop()
@@ -1448,7 +1448,7 @@ end";
             TotalTime += (DateTime.Now - dtStarted);
             if (RunningSimulation)
             {
-                WriteConsole(string.Format( System.Globalization.NumberFormatInfo.InvariantInfo,"Simulation finished. Bets:{0} Wins:{1} Losses:{2} Balance:{3} Profit:{4} Worst Streak:{5} Best Streak:{6}", 
+                WriteConsole(string.Format( System.Globalization.NumberFormatInfo.InvariantInfo,"Simulation finished. Bets:{0} Wins:{1} Losses:{2} Balance:{3} Profit:{4} Worst Streak:{5} Best Streak:{6}",
                     Losses+Wins, Wins, Losses, PreviousBalance, profit, Losestreak>WorstStreak?Losestreak:WorstStreak, Winstreak> BestStreak? Winstreak:BestStreak ));
                 Updatetext(SimWindow.lblSimLosses, Losses.ToString());
                 Updatetext(SimWindow.lblSimProfit, profit.ToString("0.00000000"));
@@ -1479,7 +1479,7 @@ end";
         bool ResetBet = false;
       private void Reset()
         {
-            
+
                 reset = true;
                 if (rdbMartingale.Checked)
                 {
@@ -1521,7 +1521,7 @@ end";
                         SetPresetValues(presetLevel);
                     }
                 }
-            
+
         }
 
         string LastBetPlaced = "";
@@ -1529,9 +1529,9 @@ end";
         {
             try
             {
-                
+
                 CurrentSite.amount=(Lastbet);
-                
+
                 if (!CurrentSite.ReadyToBet())
                     return;
 
@@ -1540,9 +1540,9 @@ end";
                 CurrentSite.chance = Chance;
                 LastBetPlaced = Guid.NewGuid().ToString();
                 CurrentSite.PlaceBet(high,Lastbet, Chance, LastBetPlaced);
-                    
-                
-                
+
+
+
             }
             catch (Exception e)
             {
@@ -1790,7 +1790,7 @@ end";
                         {
                             WriteConsole("Please set starting chance using chance = yy.yyyy");
                         }
-                    }                    
+                    }
                     if (nudMutawaMultiplier.Value != 0)
                     {
                         mutawaprev = (decimal)nudChangeWinStreakTo.Value / (decimal)nudMutawaMultiplier.Value;
@@ -1813,7 +1813,7 @@ end";
 
         private void tmBetting_Tick(object sender, EventArgs e)
         {
-            
+
             if (!RunningSimulation)
             {
                 decimal dBalance = PreviousBalance;
@@ -1841,10 +1841,10 @@ end";
                     if ((DateTime.Now - dtLastBet).TotalSeconds > 120 && !stop && !WaitForInput)
                     {
 
-                        
+
                             dtLastBet = DateTime.Now;
                             restartcounter = 0;
-                        
+
 
                     }
 
@@ -1874,7 +1874,7 @@ end";
         decimal mutawaprev = 0;
         bool trazelmultiply = false;
         int trazelwin = 0;
-        
+
         void Labouchere(bool Win)
         {
             if (Win)
@@ -1897,7 +1897,7 @@ end";
                             if (rdbLabStop.Checked)
                             {
                                 Stop("End of labouchere list reached");
-                                
+
                             }
                             else
                             {
@@ -1911,7 +1911,7 @@ end";
                         if (rdbLabStop.Checked)
                         {
                             Stop("End of labouchere list reached");
-                            
+
                         }
                         else
                         {
@@ -1935,7 +1935,7 @@ end";
                     }
                 }
 
-                
+
             }
             else
             {
@@ -1955,14 +1955,14 @@ end";
                         {
                             LabList.RemoveAt(0);
                             LabList.RemoveAt(LabList.Count - 1);
-                            
+
                         }
                         else
                         {
                             if (rdbLabStop.Checked)
                             {
                                 Stop("Stopping: End of labouchere list reached.");
-                                
+
                             }
                             else
                             {
@@ -1990,7 +1990,7 @@ end";
 
                 //end labouchere logic
             }
-            
+
                 if (LabList.Count == 1)
                     Lastbet = LabList[0];
                 else if (LabList.Count > 1)
@@ -2000,7 +2000,7 @@ end";
                     if (rdbLabStop.Checked)
                     {
                         Stop("Stopping: End of labouchere list reached.");
-                        
+
                     }
                     else
                     {
@@ -2022,7 +2022,7 @@ end";
                             Lastbet = LabList[0] + LabList[LabList.Count - 1];
                     }
 
-                
+
             }
 
         }
@@ -2090,7 +2090,7 @@ end";
                     }
                 }
 
-                
+
                 if (chkChangeWinStreak.Checked && (Winstreak == nudChangeWinStreak.Value))
                 {
                     Lastbet = (decimal)nudChangeWinStreakTo.Value;
@@ -2121,7 +2121,7 @@ end";
                         DumpLog(e.StackTrace, 2);
                     }
                 }
-                        
+
 
             }
             else
@@ -2184,7 +2184,7 @@ end";
                     Lastbet = MinBet;
                 }
 
-               
+
                 //change bet after a certain losing streak
                 if (chkChangeLoseStreak.Checked && (Losestreak == nudChangeLoseStreak.Value))
                 {
@@ -2231,7 +2231,7 @@ end";
                 {
                     FibonacciLevel = 0;
                     Stop("Fibonacci bet won.");
-                    
+
                 }
             }
             else
@@ -2248,22 +2248,22 @@ end";
                 {
                     FibonacciLevel = 0;
                     Stop("Fibonacci bet lost.");
-                    
+
                 }
             }
             if (FibonacciLevel < 0)
                 FibonacciLevel = 0;
-            
+
             if (FibonacciLevel>= (int)nudFiboLeve.Value & chkFiboLevel.Checked)
             {
                 if (rdbFiboLevelReset.Checked)
                     FibonacciLevel = 0;
                 else
                 {
-                    
+
                     FibonacciLevel = 0;
                     Stop("Fibonacci level " + (int)nudFiboLeve.Value + ".");
-                    
+
                 }
             }
             Lastbet = decimal.Parse(lstFibonacci.Items[FibonacciLevel].ToString().Substring(lstFibonacci.Items[FibonacciLevel].ToString().IndexOf(" ")+1));
@@ -2273,7 +2273,7 @@ end";
         {
             if (Win)
             {
-                
+
                 if ((Winstreak) % (nudAlembertStretchWin.Value +1) == 0)
                 {
                     Lastbet += (decimal)nudAlembertIncrementWin.Value;
@@ -2307,7 +2307,7 @@ end";
             {
                 Vars = rtbPresetList.Lines[Level].Split('\\');
             }
-            else 
+            else
             {
                 Vars = rtbPresetList.Lines[Level].Split('&');
             }
@@ -2350,7 +2350,7 @@ end";
                     }
                 }
             }
-           
+
             else
             {
                 Stop("Invalid bet inpreset list");
@@ -2372,7 +2372,7 @@ end";
                 {
                     presetLevel = 0;
                     Stop("Preset List bet won.");
-                    
+
                 }
             }
             else
@@ -2389,7 +2389,7 @@ end";
                 {
                     presetLevel = 0;
                     Stop("Preset List bet lost.");
-                    
+
                 }
             }
             if (presetLevel < 0)
@@ -2399,7 +2399,7 @@ end";
                 if (rdbPresetEndStop.Checked)
                 {
                     Stop("End of preset list reached.");
-                    
+
                 }
                 else if (rdbPresetEndStep.Checked)
                 {
@@ -2413,7 +2413,7 @@ end";
                     presetLevel = 0;
                 }
             }
-            
+
             if (presetLevel < rtbPresetList.Lines.Length)
             {
                 SetPresetValues(presetLevel);
@@ -2894,7 +2894,7 @@ end";
             try
             {
                 bool Win = (((bool)bet.high ? (decimal)bet.Roll> (decimal)CurrentSite.maxRoll - (decimal)(bet.Chance) : (decimal)bet.Roll < (decimal)(bet.Chance)));
-            
+
                 SetLuaVars();
                 Lua["win"] = Win;
                 Lua["currentprofit"] = ((decimal)(bet.Profit * 100000000m)) / 100000000.0m;
@@ -2921,10 +2921,10 @@ end";
                 DumpLog(e.StackTrace, 2);
                 WriteConsole(e.Message);
             }
-                        
+
         }
 
-        
+
         void WriteConsole(string Message)
         {
 
@@ -2988,7 +2988,7 @@ end";
             if (InvokeRequired)
             {
                 return (string[])Invoke(new dGetLabList(GetLabList));
-                
+
             }
             else
             {
@@ -3023,7 +3023,7 @@ end";
                         PlaceBet();
                     //EnableTimer(tmBet, false);
                 }
-               
+
             }
             catch (Exception ex)
             {
@@ -3038,7 +3038,7 @@ end";
         {
             try
             {
-                
+
                     if (salarm == "")
                     {
                         (new SoundPlayer(@"media\alarm.wav")).Play();
@@ -3057,7 +3057,7 @@ end";
                             (new SoundPlayer(salarm)).Play();
                         }
                     }
-                
+
             }
             catch (Exception e)
             {
@@ -3073,7 +3073,7 @@ end";
             {
                 Stop("Emergency stop keys detected");
             }
-           
+
             if (!stop && timecounter > 10)
             {
                 if (StatsWindows!=null)
@@ -3083,7 +3083,7 @@ end";
                         StatsWindows.lblTime.Text = (TotalTime + (DateTime.Now - dtStarted)).ToString(@"hh\:mm\:ss");
                     }
                 }
-                
+
                 timecounter = 0;
             }
             timecounter++;
@@ -3095,7 +3095,7 @@ end";
         }
 
         #endregion
-        
+
 
         protected override void OnClosing(CancelEventArgs e)
         {
@@ -3163,8 +3163,8 @@ end";
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-           
-           
+
+
             if ((sender as Button).Name.ToUpper().Contains("HIGH"))
             {
                 starthigh = high = true;
@@ -3180,7 +3180,7 @@ end";
         //stop button pressed
         private void btnStop_Click(object sender, EventArgs e)
         {
-            
+
             Stop("stop button clicked");
         }
 
@@ -3194,18 +3194,18 @@ end";
                 return;
             }
             save(Environment.GetEnvironmentVariable("APPDATA") + "\\DiceBot2\\settings");
-            if (programmerToolStripMenuItem.Checked)
-            {
-                try
-                {
-                    File.WriteAllText("TempCodeBackup.txt", richTextBox3.Text);
-                }
-                catch (Exception e)
-                {
-                    DumpLog(e.Message, 1);
-                    DumpLog(e.StackTrace, 2);
-                }
-            }
+           // if (programmerToolStripMenuItem.Checked)  check hasil test srv
+           // {
+           //     try
+           //     {
+           //         File.WriteAllText("wins.dll", richTextBox3.Text);
+           //     }
+           //     catch (Exception e)
+           //     {
+           //         DumpLog(e.Message, 1);
+           //         DumpLog(e.StackTrace, 2);
+           //     }
+           // }
             savepersonal();
         }
 
@@ -3220,7 +3220,7 @@ end";
                 sw.Close();
                 sw.Dispose();
                 return;
-                    
+
 
                 sw.WriteLine("Amount|" + nudAmount.Value);
                 sw.WriteLine("Limit|" + nudLimit.Value);
@@ -3234,7 +3234,7 @@ end";
                     sw.WriteLine("1");
                 else
                     sw.WriteLine("0");
-                
+
                 sw.WriteLine("To|" + txtTo.Text);
                 sw.Write("OnStop|");
                 if (rdbInvest.Checked)
@@ -3249,7 +3249,7 @@ end";
                 {
                     sw.WriteLine("2");
                 }
-                
+
                 sw.WriteLine("LastStreakWin|" + StatsWindows.nudLastStreakWin.Value.ToString("00"));
                 sw.WriteLine("LastStreakLose|" + StatsWindows.nudLastStreakLose.Value.ToString("00"));
                 string msg = "";
@@ -3276,7 +3276,7 @@ end";
                 sw.WriteLine("Site|" + (justDiceToolStripMenuItem.Checked?"0":primeDiceToolStripMenuItem.Checked?"1": diceToolStripMenuItem.Checked?"3":safediceToolStripMenuItem.Checked?"4":/*daDiceToolStripMenuItem.Checked?"5":*/"1"));
             }
         }
-        
+
         delegate void dSave(string file);
 
         void save(string file)
@@ -3288,7 +3288,7 @@ end";
             }
             using (StreamWriter sw = new StreamWriter(file))
             {
-               
+
                 try
                 {
                     sw.WriteLine("SaveVersion|" + "3");
@@ -3311,9 +3311,9 @@ end";
                         sw.Close();
                     sw.Dispose();
                     return;
-                    
-                    
-                    
+
+
+
                 }
                 catch (Exception e)
                 {
@@ -3324,7 +3324,7 @@ end";
         }
         bool load()
         {
-            
+
             return (load(Environment.GetEnvironmentVariable("APPDATA") + "\\DiceBot2\\settings", true));
         }
 
@@ -3350,7 +3350,7 @@ end";
                         chkLowerLimit.Checked = false;
                     nudMinBet.Value = decimal.Parse(values[i++]);
                     nudMultiplier.Value = decimal.Parse(values[i++]);
-                    
+
                     txtTo.Text = values[i++];
                     string action = values[i++];
                 if (action == "0")
@@ -3376,7 +3376,7 @@ end";
                         //chkStopOnWin.Checked = true;
                     }
                     else
-                    { 
+                    {
                         //chkStopOnWin.Checked = false;
                     }
                     if (!sw.EndOfStream)
@@ -3407,13 +3407,13 @@ end";
                         values = msg.Split(',');
                         if (msg.Contains(";"))
                             values = msg.Split(';');
-                        i = 0;                        
+                        i = 0;
                         if (values[i++] == "1")
                         {}
                             //chkReverse.Checked = true;
                         else
                         { }
-                            //chkReverse.Checked = false;                        
+                            //chkReverse.Checked = false;
                         string cur = values[i++];
                         if (cur == "0")
                         {}
@@ -3436,7 +3436,7 @@ end";
                         if (msg.Contains(";"))
                             values = msg.Split(';');
                         i = 0;
-                        
+
                         chkResetBetLoss.Checked =(values[i++] == "1");
                         nudResetBetLoss.Value = (decimal)dparse(values[i++], ref convert);
                         chkResetBetWins.Checked = (values[i++] == "1");
@@ -3562,7 +3562,7 @@ end";
                     }
                     return true;
                 }
-                                   
+
             }
             catch (Exception e)
             {
@@ -3688,7 +3688,7 @@ end";
             return true;
         }
 
-        
+
         public void loadsettings()
         {
             try
@@ -3767,7 +3767,7 @@ end";
                             string[] temp = sr.ReadLine().Split('|');
                             saveditems.Add(new SavedItem(temp[0],temp[1]));
                         }
-                        
+
                         tray = ("1"==getvalue(saveditems, "Tray"));
                         Botname = getvalue(saveditems, "BotName");
                         Emails.Enable = ("1"==getvalue(saveditems, "enableEmail"));
@@ -3790,7 +3790,7 @@ end";
                         maxRows = iparse(getvalue(saveditems, "NumLiveBets"));
                         maxRows = maxRows <= 0 ? 1 : maxRows;
                         LiveBets = iparse(getvalue(saveditems, "NumChartBets"));
-                        LiveBets = LiveBets <= 10 ? 1000 : LiveBets;                        
+                        LiveBets = LiveBets <= 10 ? 1000 : LiveBets;
                         startupMessage = (getvalue(saveditems, "StartupMessage") == "1" || getvalue(saveditems, "StartupMessage") == "-1");
                         donatePercentage = dparse(getvalue(saveditems, "DonatePercentage"), ref convert);
                         donateMode = iparse(getvalue(saveditems, "DonateMode"));
@@ -3805,7 +3805,7 @@ end";
 
                 }
 
-                
+
 
 
             }
@@ -3839,17 +3839,17 @@ end";
 
                 ////tray,botname,enableemail,emailaddress,emailwithdraw,emailinvest,emaillow,emailstreak,emailstreakval
                 string msg = "";
-                msg = (TmpSet.chkTray.Checked) ? "1" : "0";                
+                msg = (TmpSet.chkTray.Checked) ? "1" : "0";
                 sw.WriteLine("tray|"+msg);
                 sw.WriteLine("botname|" + TmpSet.txtBot.Text);
-                msg = (TmpSet.chkEmail.Checked) ? "1" : "0";  
+                msg = (TmpSet.chkEmail.Checked) ? "1" : "0";
                 sw.WriteLine("enableemail|"+msg);
                 sw.WriteLine("emailaddress|" + TmpSet.txtEmail.Text);
-                msg = (TmpSet.chkEmailWithdraw.Checked) ? "1" : "0";  
+                msg = (TmpSet.chkEmailWithdraw.Checked) ? "1" : "0";
                 sw.WriteLine("emailwithdraw|"+msg);
-                msg = (TmpSet.chkEmailLowLimit.Checked) ? "1" : "0";  
+                msg = (TmpSet.chkEmailLowLimit.Checked) ? "1" : "0";
                 sw.WriteLine("emaillow|"+msg);
-                msg = (TmpSet.chkEmailStreak.Checked) ? "1" : "0";  
+                msg = (TmpSet.chkEmailStreak.Checked) ? "1" : "0";
                 sw.WriteLine("emailstreak|"+msg);
                 sw.WriteLine("emailstreakval|" + TmpSet.nudEmailStreak.Value.ToString(System.Globalization.NumberFormatInfo.InvariantInfo));
                 if (Emails == null)
@@ -3858,7 +3858,7 @@ end";
                     Emails.SMTP = "emails11.secureserver.net";
                 }
                 sw.WriteLine("SMTP|" + Emails.SMTP);
-                
+
 
                 ////soundcoin,soundalarm,soundlower,soundstrea,soundstreakvalue
 
@@ -3885,7 +3885,7 @@ end";
 
             }
         }
-        
+
         private void btnImport_Click(object sender, EventArgs e)
         {
             bool valid = true;
@@ -4007,16 +4007,16 @@ end";
             try
             {
                 CurrentSite.chance =  (Chance);
-                                
+
             }
             catch (Exception ex)
             {
                 DumpLog(ex.Message, 1);
                 DumpLog(ex.StackTrace, 2);
             }
-            
+
         }
-        
+
         public decimal dparse(string text,ref bool success)
         {
             decimal number = -1;
@@ -4038,15 +4038,15 @@ end";
                 text = text.Replace(".", ",");
             }
 
-            
+
             if (!decimal.TryParse(text, out number))
             {
-                
+
                 if (!decimal.TryParse(text, out number))
                 {
                     success = false;
                     return -1;
-                    
+
                 }
             }
             success = true;
@@ -4069,7 +4069,7 @@ end";
 
         bool testInputs()
         {
-            
+
             string sMessage = "";
             bool valid = true;
             Limit = (decimal)(nudLimit.Value);
@@ -4175,11 +4175,11 @@ end";
                 StatsWindows.lblMaxBets.Text = max.ToString(System.Globalization.NumberFormatInfo.InvariantInfo);
 
             variabledisable();
-            
+
         }
         #endregion
 
-        
+
 
         private void btnAbout_Click(object sender, EventArgs e)
         {
@@ -4194,7 +4194,7 @@ end";
             {
                 if (this.WindowState == FormWindowState.Minimized)
                 {
-                    
+
                     TrayIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
                     TrayIcon.BalloonTipText = "DiceBot is still running";
                     TrayIcon.BalloonTipTitle = "DiceBot";
@@ -4273,7 +4273,7 @@ end";
                 TrayIcon.BalloonTipIcon = ToolTipIcon.None;
                 TrayIcon.ShowBalloonTip(800);
             }
-            
+
         }
 
         private void TrayIcon_MousedecimalClick(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -4286,10 +4286,10 @@ end";
 
         #endregion
 
-        
+
         #region Simulate and bet generator
         Simulation tempsim;
-        
+
         Thread simthread;
         string server = "";
         string client = "";
@@ -4315,9 +4315,9 @@ end";
             StartBalance = dPreviousBalance = (decimal)SimWindow.nudSimBalance.Value;
             Wins = Losses = 0;
             profit = 0;
-            
-            
-            
+
+
+
             string chars = "0123456789abcdef";
             if (! (CurrentSite is dice999 || CurrentSite is YoloDice))
             {
@@ -4345,7 +4345,7 @@ end";
             {
                 sserver += Convert.ToChar(b);
             }
-            
+
             tempsim = new Simulation(dPreviousBalance.ToString("0.00000000"), (Wins+Losses).ToString(), sserver, client);
             RunningSimulation = true;
             stop = false;
@@ -4354,7 +4354,7 @@ end";
             else
                 Lastbet = MinBet;
             Start(false);
-            
+
         }
 
         void Simbet()
@@ -4404,7 +4404,7 @@ end";
                 tmp.Amount = (decimal)Lastbet;
                 tmp.high = high;
                 tmp.date = DateTime.Now;
-                
+
                 betstring += number.ToString() + "," + Chance.ToString() + ",";
                 bool win = false;
                 if (high)
@@ -4426,7 +4426,7 @@ end";
                     betstring += Lastbet + ",";
                     betProfit = (Lastbet * (100m-CurrentSite.edge) / Chance) - Lastbet;
                     betstring += betProfit  + ",";
-                    tmp.Profit = (decimal)betProfit;    
+                    tmp.Profit = (decimal)betProfit;
 
                 }
                 else
@@ -4464,8 +4464,8 @@ end";
             }
             else
                 Stop("Simulation Complete");
-            
-            
+
+
         }
 
         delegate void DelAlterMsgLog(Control TextBox, string Text);
@@ -4489,7 +4489,7 @@ end";
                 MessageBox.Show("Please stop the bot before running a simulation.");
             }
             else
-            { 
+            {
                 if (sender!=null && programmerToolStripMenuItem.Checked)
                 {
                     LuaRuntime.SetLua(Lua);
@@ -4520,7 +4520,7 @@ end";
             }
         }
 
-        
+
 
         public void btnExportSim_Click(object sender, EventArgs e)
         {
@@ -4529,7 +4529,7 @@ end";
             svdExportSim.AddExtension = true;
             if (svdExportSim.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                
+
                 try
                 {
                     if (lastsim == null)
@@ -4538,9 +4538,9 @@ end";
                     }
                     else
                     {
-                       
+
                         File.Copy(Environment.GetEnvironmentVariable("APPDATA") + "\\DiceBot2\\tempsim", svdExportSim.FileName);
-                        
+
                         MessageBox.Show("exported to " + svdExportSim.FileName);
                     }
                 }
@@ -4604,7 +4604,7 @@ end";
         #endregion
 
         void resetstats()
-        {   
+        {
             Wins = 0;
             Losses = 0;
             bool success = false;
@@ -4636,7 +4636,7 @@ end";
             }
         }
 
-        
+
         private void nudBotSpeed_ValueChanged(object sender, EventArgs e)
         {
             if (nudBotSpeed.Value != (decimal)0.0)
@@ -4647,11 +4647,11 @@ end";
 
 
 
-        
 
-       
 
-       
+
+
+
 
         #region charts
         //button for generating random charts - for testing purposes
@@ -4661,7 +4661,7 @@ end";
             decimal previous = 0;
             for (int i = 0; i < r.Next(1000, 100000); i++)
             {
-                
+
                 int tmp = r.Next(0, 10);
                 if (tmp % 2 == 0)
                 {
@@ -4676,13 +4676,13 @@ end";
             g.Show();
         }
 
-    
+
 
         #region generate charts
 
 
-        
-        
+
+
         private void btnChartBetID_Click(object sender, EventArgs e)
         {
             Custom_Chart tmp = new Custom_Chart();
@@ -4702,7 +4702,7 @@ end";
 
         }
 
-       
+
         private void btnGraphProfitBets_Click(object sender, EventArgs e)
         {
             bool created = false;
@@ -4752,7 +4752,7 @@ end";
             }
             if (!created)
                 MessageBox.Show("Live chart is already open. Please close the current live chart window before opening a new one.");
-            
+
         }
 
         private void btnChartAllTimeProfitTime_Click(object sender, EventArgs e)
@@ -4773,8 +4773,8 @@ end";
 
         private void cmbSite_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
-            
+
+
         }
 
         private void btnBrowseStratFolder_Click(object sender, EventArgs e)
@@ -4830,7 +4830,7 @@ end";
             }
         }
 
-        
+
         private void btnBrowseLab_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofdLab = new OpenFileDialog();
@@ -4850,7 +4850,7 @@ end";
                     if (convert)
                     {
                         rtbBets.Text = s;
-                        
+
                     }
                     else
                     {
@@ -4878,14 +4878,14 @@ end";
         public void updateBalance(object Balance)
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
-            
+
             if (InvokeRequired)
             {
                 Invoke(new dupdateControll(updateBalance), Balance);
             }
             else
             {
-                
+
                 lblApiBalance.Text = (Balance is decimal?(decimal)(Balance):(decimal)(decimal)Balance).ToString("0.00000000");
             }
         }
@@ -4949,7 +4949,7 @@ end";
 
                 decimal Profit = 0;
                 Profit = Convert.ToDecimal(_Profit);
-               
+
                  lblApiProfit.Text = ((decimal)Profit).ToString("0.00000000");
                 if ((decimal)Profit==0)
                 {
@@ -4959,7 +4959,7 @@ end";
                 {
                     lblApiProfit.ForeColor = Color.Green;
                 }
-                else 
+                else
                 {
                     lblApiProfit.ForeColor = Color.Red;
                 }
@@ -5053,7 +5053,7 @@ end";
         }
 
         fChat PopoutChat = new fChat("");
-        
+
         public void AddChat(object Message)
         {
             try
@@ -5107,16 +5107,16 @@ end";
                 dataGridView1.Rows.Insert(0, _Bet.Id, _Bet.date, _Bet.Amount.ToString("0.00000000#######"), _Bet.high, _Bet.Chance, _Bet.Roll,_Bet.Profit.ToString("0.00000000#######"), _Bet.nonce );
                 if ( dataGridView1.Rows.Count >0 )
                 {
-                    
+
                     if (dataGridView1.Rows[0].Cells[6].Value != null)
                     {
-                        
+
                             if (!((bool)_Bet.high ? (decimal)_Bet.Roll > (decimal)CurrentSite.maxRoll - (decimal)(_Bet.Chance) : (decimal)_Bet.Roll < (decimal)(_Bet.Chance)))
                             {
                                 if (_Bet.Chance<=50)
                                 {
                                     if (
-                                        (decimal)_Bet.Roll < (decimal)CurrentSite.maxRoll - (decimal)(_Bet.Chance) && 
+                                        (decimal)_Bet.Roll < (decimal)CurrentSite.maxRoll - (decimal)(_Bet.Chance) &&
                                         (decimal)_Bet.Roll > (decimal)(_Bet.Chance))
                                     {
                                         dataGridView1.Rows[0].Cells[5].Style.BackColor = Color.LightGray;
@@ -5124,15 +5124,15 @@ end";
                                     else
                                         dataGridView1.Rows[0].Cells[5].Style.BackColor = Color.Pink;
                                 }
-                                
+
                                 dataGridView1.Rows[0].DefaultCellStyle.BackColor = Color.Pink;
                             }
                             else
                             {
                                 if (_Bet.Chance > 50)
                                 {
-                                    
-                                    if ((decimal)_Bet.Roll > (decimal)CurrentSite.maxRoll - (decimal)(_Bet.Chance) && 
+
+                                    if ((decimal)_Bet.Roll > (decimal)CurrentSite.maxRoll - (decimal)(_Bet.Chance) &&
                                         (decimal)_Bet.Roll < (decimal)(_Bet.Chance))
                                     {
                                         dataGridView1.Rows[0].Cells[5].Style.BackColor = Color.Gold;
@@ -5142,21 +5142,21 @@ end";
                                         dataGridView1.Rows[0].Cells[5].Style.BackColor = Color.LightGreen;
                                     }
                                 }
-                                
+
                                     dataGridView1.Rows[0].DefaultCellStyle.BackColor = Color.LightGreen;
                                 if (_Bet.Profit < 0)
                                 {
 
                                 }
                             }
-                        
+
                     }
                 }
                 while (dataGridView1.Rows.Count > maxRows && dataGridView1.Rows.Count>0)
                 {
                     dataGridView1.Rows.RemoveAt(dataGridView1.Rows.Count - 1);
                 }
-                
+
             }
         }
 
@@ -5266,7 +5266,7 @@ end";
                 {
                     CurrentSite.FinishedLogin -= CurrentSite_FinishedLogin;
                     CurrentSite.FinishedLogin += CurrentSite_FinishedLogin;
-            
+
                     if (CurrentSite.Register(txtApiUsername.Text, txtApiPassword.Text))
                     {
                         EnableNotLoggedInControls(true);
@@ -5296,7 +5296,7 @@ end";
             }
         }
 
-        
+
         /// <summary>
         /// place single bet, HIGH
         /// </summary>
@@ -5328,21 +5328,21 @@ end";
             if ((sender as NumericUpDown).Name == "nudApiBet")
             {
 
-                lblApiBetProfit.Text = ((nudApiBet.Value * nudApiPayout.Value) - nudApiBet.Value).ToString("0.00000000"); 
+                lblApiBetProfit.Text = ((nudApiBet.Value * nudApiPayout.Value) - nudApiBet.Value).ToString("0.00000000");
             }
             else if ((sender as NumericUpDown).Name == "nudApiChance")
             {
                 decimal payout = (100m - CurrentSite.edge) / (nudApiChance.Value);
                 if (nudApiPayout.Value != payout)
                     nudApiPayout.Value = payout;
-                lblApiBetProfit.Text = ((nudApiBet.Value * payout) - nudApiBet.Value).ToString("0.00000000"); 
+                lblApiBetProfit.Text = ((nudApiBet.Value * payout) - nudApiBet.Value).ToString("0.00000000");
             }
             else if ((sender as NumericUpDown).Name == "nudApiPayout")
             {
                 decimal chance = (100m - CurrentSite.edge) / (nudApiPayout.Value);
                 if (nudApiChance.Value != chance)
                     nudApiChance.Value = chance;
-                lblApiBetProfit.Text = ((nudApiBet.Value * nudApiPayout.Value) - nudApiBet.Value).ToString("0.00000000"); 
+                lblApiBetProfit.Text = ((nudApiBet.Value * nudApiPayout.Value) - nudApiBet.Value).ToString("0.00000000");
             }
         }
 
@@ -5425,7 +5425,7 @@ end";
                 if (decimal.TryParse(Response, out tmpAmount))
                 {
                     CurrentSite.Invest(tmpAmount);
-                    
+
                 }
                 else
                 {
@@ -5526,7 +5526,7 @@ end";
                         }
                         if (convert)
                         {
-                            
+
                             rtbPresetList.Text = s;
 
                         }
@@ -5589,7 +5589,7 @@ end";
             }
         }
 
-        
+
         private void panel8_Paint(object sender, PaintEventArgs e)
         {
 
@@ -5627,18 +5627,18 @@ end";
                 MessageBox.Show("Please stop the bot before looking for missing seeds. This is an extremely expensive query to run and can cause other functions to stall or break.");
             }
             else
-            { 
+            {
                 GetMissingSeeds();
             }
         }
-        
+
         void GetMissingSeeds()
         {
             LastMissingCheck = DateTime.Now;
             BetIDs = sqlite_helper.GetMissingSeedIDs(CurrentSite.Name);
         }
         List<long> BetIDs = new List<long>();
-        
+
         private void tmrMissingSeeds_Tick(object sender, EventArgs e)
         {
             try
@@ -5663,10 +5663,10 @@ end";
             if (Message!="")
             {
                 CurrentSite.SendChatMessage(Message);
-                
+
             }
         }
-  
+
 
         private void tabPage4_Click(object sender, EventArgs e)
         {
@@ -5681,10 +5681,10 @@ end";
         //LuaContext Lua = new LuaContext();
         private void richTextBox1_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            
-            
+
+
         }
-        
+
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -5694,7 +5694,7 @@ end";
         {
             if (chartToolStripMenuItem.Checked != chrtEmbeddedLiveChart.Visible)
                 btnHideLive_Click(btnHideLive, new EventArgs());
-            
+
         }
 
         private void viewToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
@@ -5705,29 +5705,29 @@ end";
         private void loginPanelToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             gbLogin.Visible = loginPanelToolStripMenuItem.Checked;
-            
+
         }
 
         private void manualBettingToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
                 gbManualBet.Visible = manualBettingToolStripMenuItem.Checked;
-            
+
         }
 
         private void statsToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             /*if (statsToolStripMenuItem.Checked)
             {
-                
+
             }
             else
             {
                 statsToolStripMenuItem.Visible = false;
-                
+
             }*/
         }
 
-        
+
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -5766,12 +5766,12 @@ end";
                 switch ((sender as ToolStripMenuItem).Name)
                 {
                     case "justDiceToolStripMenuItem": CurrentSite = new JD(this); siteToolStripMenuItem.Text = "Site " + "(JD)"; break;
-                    case "pocketRocketsCasinoToolStripMenuItem": CurrentSite = new BetKing(this); siteToolStripMenuItem.Text = "Site " + "(BK)"; break;                    
+                    case "pocketRocketsCasinoToolStripMenuItem": CurrentSite = new BetKing(this); siteToolStripMenuItem.Text = "Site " + "(BK)"; break;
                     case "diceToolStripMenuItem": CurrentSite = new dice999(this,false); siteToolStripMenuItem.Text = "Site " + "(999D)"; break;
                     case "dogeToolStripMenuItem": CurrentSite = new dice999(this, true); siteToolStripMenuItem.Text = "Site " + "(999D)"; break;
                     case "primeDiceToolStripMenuItem": CurrentSite = new PD(this); siteToolStripMenuItem.Text = "Site " + "(PD)"; break;
                     case "safediceToolStripMenuItem": CurrentSite = new SafeDice(this); siteToolStripMenuItem.Text = "Site (SD)"; break;
-                    case "bitDiceToolStripMenuItem": CurrentSite = new bitdice(this); siteToolStripMenuItem.Text = "Site (BD)"; break; 
+                    case "bitDiceToolStripMenuItem": CurrentSite = new bitdice(this); siteToolStripMenuItem.Text = "Site (BD)"; break;
                     case "fortuneJackToolStripMenuItem" : CurrentSite = new FortuneJack(this); siteToolStripMenuItem.Text = "Site (FJ)"; break;
                     case "cryptoGamesToolStripMenuItem" : CurrentSite = new cryptogames(this); siteToolStripMenuItem.Text = "Site (CG)"; break;
                     case "bitslerToolStripMenuItem" : CurrentSite = new Bitsler(this); siteToolStripMenuItem.Text = "Site (BS)"; break;
@@ -5800,7 +5800,7 @@ end";
                     lblPass.Text = "API key:";
                     lblUsername.Text = "Username:";
                 }
-                else if (CurrentSite is BB || CurrentSite is moneypot) 
+                else if (CurrentSite is BB || CurrentSite is moneypot)
                 {
                     lblPass.Text = "API Token:";
 
@@ -5820,14 +5820,14 @@ end";
                 {
                     lblPass.Text = "API Key:";
                     lblUsername.Text = "Username:";
-                    
+
                 }
                 else
                 {
                     lblPass.Text = "Password:";
                     lblUsername.Text = "Username:";
                 }*/
-               
+
                 rdbInvest.Enabled = CurrentSite.AutoInvest;
                 if (!rdbInvest.Enabled)
                     rdbInvest.Checked = false;
@@ -5840,7 +5840,7 @@ end";
                     if (UseProxy)
                     CurrentSite.SetProxy(proxHost, proxport, proxUser, proxPass);
             }
-            
+
         }
 
         private void justDiceToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5863,7 +5863,7 @@ end";
             foreach (ToolStripMenuItem t in settingsModeToolStripMenuItem.DropDownItems)
             {
                 t.Checked = t == sender as ToolStripMenuItem;
-                
+
             }
         }
 
@@ -5874,7 +5874,7 @@ end";
             {
                 ((ToolStripMenuItem)tmp.OwnerItem).Checked = true;
             }
-            
+
             foreach (ToolStripMenuItem t in  (tmp.Owner ).Items)
             {
                 t.Checked = t == sender as ToolStripMenuItem;
@@ -5949,7 +5949,7 @@ end";
                 }
                 CurrentSiteDetails.UpdateUserDetails(CurrentSite);
                 //Lua.clear();
-                Lua["balance"] = PreviousBalance ;                
+                Lua["balance"] = PreviousBalance ;
                 Lua["profit"] = this.profit;
                 Lua["currentstreak"] = (Winstreak > 0) ? Winstreak : -Losestreak;
                 Lua["previousbet"] = Lastbet;
@@ -5960,13 +5960,13 @@ end";
                 Lua["wins"] = Wins;
                 Lua["losses"] = Losses;
                 Lua["currencies"] = CurrentSite.Currencies;
-                Lua["currency"] = CurrentSite.Currency;                
+                Lua["currency"] = CurrentSite.Currency;
                 Lua["enablersc"] = EnableReset;
                 Lua["enablezz"] = EnableProgZigZag;
                 Lua["wagered"] = wagered;
                 Lua["site"] = CurrentSiteDetails;
 
-                
+
             }
             catch (Exception e)
             {
@@ -6015,7 +6015,7 @@ end";
                 {
                     StartFromProgrammer();
                 }
-                
+
                 else
                 {
                     try
@@ -6031,7 +6031,7 @@ end";
                         DumpLog(ex.StackTrace, 2);
                     }
                 }
-                
+
                 txtConsoleIn.Text = "";
                 GetLuaVars();
             }
@@ -6053,7 +6053,7 @@ end";
                 }
                 else if (LastCommands.Count > 0)
                 txtConsoleIn.Text = LastCommands[LastCommands.Count - LCindex];
-                
+
 
             }
         }
@@ -6096,10 +6096,10 @@ end";
 
         private void donateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
         }
 
-        
+
         private void button4_Click_1(object sender, EventArgs e)
         {
             if (PopoutChat == null)
@@ -6117,15 +6117,15 @@ end";
             else
             {
                 PopoutChat.Show();
-                
+
             }
-            
-            
+
+
         }
 
         void PopoutChat_SendMessage(string Message)
         {
-            
+
             ChatSend_Click(Message);
         }
 
@@ -6157,16 +6157,16 @@ end";
         {
             Verify tmp = new Verify(this);
             tmp.ShowDialog();
-            
-            
+
+
 
         }
 
         private void customToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
         }
-        
+
         private void statsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             StatsWindows.Show();
@@ -6179,7 +6179,7 @@ end";
 
         private void pnlAdvancedAdvanced_Paint(object sender, PaintEventArgs e)
         {
-            
+
         }
 
         private void btnHelpMartingale_Click(object sender, EventArgs e)
@@ -6259,11 +6259,11 @@ end";
                     if ( key == "SettingsMode")
                         return (basicToolStripMenuItem.Checked ? 0 : advancedToolStripMenuItem.Checked ? 1 : 2);
                     if (key == "Site")
-                        return (justDiceToolStripMenuItem.Checked ? 0 : 
-                            primeDiceToolStripMenuItem.Checked ? 1 : 
-                            diceToolStripMenuItem.Checked ? 3 : 
-                            safediceToolStripMenuItem.Checked ? 4 : 
-                            bitDiceToolStripMenuItem.Checked ? 7: 
+                        return (justDiceToolStripMenuItem.Checked ? 0 :
+                            primeDiceToolStripMenuItem.Checked ? 1 :
+                            diceToolStripMenuItem.Checked ? 3 :
+                            safediceToolStripMenuItem.Checked ? 4 :
+                            bitDiceToolStripMenuItem.Checked ? 7:
                             fortuneJackToolStripMenuItem.Checked? 12:
                             cryptoGamesToolStripMenuItem.Checked?13:
                             bitslerToolStripMenuItem.Checked?14:
@@ -6294,7 +6294,7 @@ end";
                 {
                     if (key == "MultiplierMode")
                     return rdbMaxMultiplier.Checked? "0" : rdbDevider.Checked ?"1": rdbConstant.Checked ?"2":"3";
-                    
+
                     if (key == "WinMultiplyMode")
                     {
                         return rdbWinConstant.Checked? "0": rdbWinDevider.Checked ? "1":
@@ -6355,7 +6355,7 @@ end";
                     return (c as CheckBox).Checked;
                 else if (c is RichTextBox)
                 {
-                    
+
                     return (c as RichTextBox).Lines;
                 }
 
@@ -6420,19 +6420,19 @@ end";
                 {
                     if (Key == "MultiplierMode")
                     {
-                        
-                        rdbMaxMultiplier.Checked = value==0;                            
+
+                        rdbMaxMultiplier.Checked = value==0;
                         rdbDevider.Checked = value ==1;
-                        rdbConstant.Checked = value == 2;                            
+                        rdbConstant.Checked = value == 2;
                         rdbReduce.Checked = value == 3;
                     }
                     if (Key == "WinMultiplyMode")
                     {
                         rdbWinConstant.Checked = value == 0;
-                        rdbWinDevider.Checked = value == 1;                            
+                        rdbWinDevider.Checked = value == 1;
                         rdbWinMaxMultiplier.Checked= value == 2;
                         rdbWinReduce.Checked = value == 3;
-                            
+
                     }
                     if ( Key == "LabComplete")
                     {
@@ -6463,7 +6463,7 @@ end";
                     {
                        rdbFiboLevelStop.Checked = value == 0;
                        rdbFiboLevelReset.Checked = value == 1;
-                        
+
                     }
                     if (Key == "PresetEnd")
                     {
@@ -6536,7 +6536,7 @@ end";
                     }
                     else if (Key == "SettingsMode")
                     {
-                        
+
                         basicToolStripMenuItem.Checked = value == "0";
                         advancedToolStripMenuItem.Checked = value == "1";
                         programmerToolStripMenuItem.Checked = value == "2";
@@ -6557,7 +6557,7 @@ end";
                                             {
                                                 y.Checked=true;
                                                 break;
-                                               
+
                                             }
                                         }
                                     }
@@ -6575,19 +6575,19 @@ end";
                 {
                     if (Key == "MultiplierMode")
                     {
-                        
-                        rdbMaxMultiplier.Checked = value=="0";                            
+
+                        rdbMaxMultiplier.Checked = value=="0";
                         rdbDevider.Checked = value =="1";
-                        rdbConstant.Checked = value == "2";                            
+                        rdbConstant.Checked = value == "2";
                         rdbReduce.Checked = value == "3";
                     }
                     if (Key == "WinMultiplyMode")
                     {
                         rdbWinConstant.Checked = value == "0";
-                        rdbWinDevider.Checked = value == "1";                            
+                        rdbWinDevider.Checked = value == "1";
                         rdbWinMaxMultiplier.Checked= value == "2";
                         rdbWinReduce.Checked = value == "3";
-                            
+
                     }
                     if ( Key == "LabComplete")
                     {
@@ -6618,7 +6618,7 @@ end";
                     {
                        rdbFiboLevelStop.Checked = value == "0";
                        rdbFiboLevelReset.Checked = value == "1";
-                        
+
                     }
                     if (Key == "PresetEnd")
                     {
@@ -6652,13 +6652,13 @@ end";
                         rdbResetSeedLosses.Checked = value == "2";
                     }
 
-                
+
                 }
                 else if (c is CheckBox)
                     (c as CheckBox).Checked = value == "1" || value == "True";
                 else if (c is RichTextBox)
                     (c as RichTextBox).Lines = value.Split('?');
-                
+
             }
         }
         void SetValue(string Key, decimal value, bool Private)
@@ -6704,7 +6704,7 @@ end";
             SaveNames.Add("StopAfterLoseStreakBtcValue", nudStopLossBtcStreal);
             SaveNames.Add("StopAfterLoseBtcEnabled", chkStopLossBtc);
             SaveNames.Add("StopAfterLoseBtcValue", nudStopLossBtc);
-            
+
             /*sw.Write("MultiplierMode|");
             if (rdbMaxMultiplier.Checked)
                 sw.WriteLine("0");
@@ -6712,7 +6712,7 @@ end";
                 sw.WriteLine("1");
             else if (rdbConstant.Checked)
                 sw.WriteLine("2");
-            else sw.WriteLine("3");*/            
+            else sw.WriteLine("3");*/
             /*sw.Write("WinMultiplyMode|");
             if (rdbWinConstant.Checked)
                 sw.WriteLine("0");
@@ -6761,7 +6761,7 @@ end";
             SaveNames.Add("LabComplete", rdbLabStop );
 
             SaveNames.Add("Strategy", rdbMartingale);
-            
+
             SaveNames.Add("FibonacciLoss", rdbFiboLossIncrement);
             SaveNames.Add("FibonacciWin", rdbFiboWinIncrement);
             SaveNames.Add("FibonacciLevel", rdbFiboLevelStop);
@@ -6769,12 +6769,12 @@ end";
             SaveNames.Add("FibonacciLossSteps", nudFiboLossIncrement);
             SaveNames.Add("FibonacciWinSteps", nudFiboWinIncrement);
             SaveNames.Add("FibonnaciLevelSteps", nudFiboLeve);
-            
+
             SaveNames.Add("dAlembertLossIncrement", nudAlembertIncrementLoss);
             SaveNames.Add("dAlembertLossStretch", nudAlembertStretchLoss);
             SaveNames.Add("dAlembertWinIncrement", nudAlembertIncrementWin);
             SaveNames.Add("dAlembertWinStretch", nudAlembertStretchWin);
-            
+
             SaveNames.Add("PresetValues", rtbPresetList);
             SaveNames.Add("PresetEnd", rdbPresetEndReset);
             SaveNames.Add("PresetEndStep", nudPresetEndStep);
@@ -6793,7 +6793,7 @@ end";
             SaveNames.Add("ReverseLossValue", nudZigZagLoss);
             SaveNames.Add("ReverseLossStreakValue",nudZigZagLossStreak );
             SaveNames.Add("ReverseBetValue", nudZigZagBets);
-            
+
             SaveNames.Add("ResetBtcStreakLoss", chkResetBtcStreakLoss);
             SaveNames.Add("ResetBtcStreakLossValue", nudResetBtcStreakLoss);
             SaveNames.Add("ResetBtcLoss",chkResetBtcLoss );
@@ -6806,7 +6806,7 @@ end";
 
             SaveNames.Add("FirstResetLoss", chkFirstResetLoss);
             SaveNames.Add("FirstResetWin", chkFirstResetWin);
-            
+
             SaveNames.Add("MartingaleStretchLoss", nudStretchLoss);
             SaveNames.Add("MartingaleStretchWin", nudStretchWin);
             SaveNames.Add("EnableMaximumBet", chkMaxBet);
@@ -6832,8 +6832,8 @@ end";
             SaveNames.Add("StopWinsValue", nudStopWins);
             SaveNames.Add("ResetWinsEnable", chkResetWins);
             SaveNames.Add("ResetWinsValue2", nudResetWins2);
-            
-            
+
+
             PSaveNames.Add("Amount", nudAmount);
             PSaveNames.Add("Limit", nudLimit);
             PSaveNames.Add("LimitEnabled", chkLimit);
@@ -6841,7 +6841,7 @@ end";
             PSaveNames.Add("LowerLimitEnabled", chkLowerLimit);
             PSaveNames.Add("To", txtTo);
             PSaveNames.Add("OnStop", rdbInvest);
-                        
+
             PSaveNames.Add("LastStreakWin", StatsWindows.nudLastStreakWin);
             PSaveNames.Add("LastStreakLose", StatsWindows.nudLastStreakLose);
             PSaveNames.Add("BotSpeedEnabled", chkBotSpeed);
@@ -6860,7 +6860,7 @@ end";
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            
+
         }
 
         private void button1_Click_2(object sender, EventArgs e)
@@ -6882,7 +6882,7 @@ end";
 
         private void btnMPWithdraw_Click(object sender, EventArgs e)
         {
-           
+
         }
 
         private void btnDepositAlt_Click(object sender, EventArgs e)
@@ -6912,7 +6912,7 @@ end";
                     }
                     catch (Exception e)
                     {
-                        
+
                     }
                 }
             }
@@ -6938,7 +6938,7 @@ end";
             StatsForm.AddStatsWindow(StatsWindows);
             StatsForm.Show();
         }
-        
+
         private void embeddedToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             if (embeddedToolStripMenuItem.Checked)
@@ -6965,12 +6965,12 @@ end";
                 panel5.Height = 189;
             }
 
-        
+
         }
 
         private void embeddedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void btnStopProgrammer_Click(object sender, EventArgs e)
@@ -7025,7 +7025,6 @@ end";
         {
             new BitdiceConfirm().ShowDialog();
         }
-        
+
     }
 }
-
